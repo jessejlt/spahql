@@ -12,7 +12,7 @@
  * Registers a created class with the Spah package using both CamelCase and commonJs-style naming schemes.
  * The Spah package is already registered with the window or the commonJS exports object automatically.
  **/
-SpahQL_classRegister = function(name, klass) {
+var SpahQL_classRegister = function(name, klass) {
   // Register on the Spah constant
   var nameNS = name.split(".");
   var w = (typeof(window)=='undefined')? {} : window;
@@ -48,7 +48,7 @@ SpahQL_classRegister = function(name, klass) {
  * Creates a new class that extends another class. Follows the same rules as SpahQL_classCreate. The superclass does not 
  * need to be a part of the Spah package.
  **/
-SpahQL_classExtend = function(name, superKlass, constructor, klassProps, instanceProps) {
+var SpahQL_classExtend = function(name, superKlass, constructor, klassProps, instanceProps) {
   // Massage args
   var con, kP, iP;
 
@@ -117,12 +117,12 @@ SpahQL_classExtend = function(name, superKlass, constructor, klassProps, instanc
  *
  * Creates a class internal to the Spah library and namespace.
  **/
-SpahQL_classCreate = function(name, constructor, klassProps, instanceProps) {
+var SpahQL_classCreate = function(name, constructor, klassProps, instanceProps) {
   // Make the class constructor
   return SpahQL_classExtend(name, Object, constructor, klassProps, instanceProps)
 };
 
-SpahQL = SpahQL_classExtend("SpahQL", Array, {
+var SpahQL = SpahQL_classExtend("SpahQL", Array, {
   
   /**
    * SpahQL.db(data) -> SpahQL
@@ -983,7 +983,8 @@ if(typeof(module) != 'undefined' && typeof(module.exports) != 'undefined') modul
 if(typeof(window) != 'undefined') window.SpahQL = SpahQL;
 
 
-/**
+
+/**
  * class SpahQL.Callbacks
  *
  * Stores and manages the dispatch of modification callbacks on any data source that can be queried with SpahQL.
@@ -1113,7 +1114,8 @@ SpahQL_classCreate("SpahQL.Callbacks", {
   
 });
 
-/**
+
+/**
  * class SpahQL.Errors
  *
  * A containing namespace for all exceptions generated within the SpahQL library.
@@ -1136,7 +1138,8 @@ SpahQL.Errors.SpahQLError.prototype = Error.prototype;
 SpahQL.Errors.SpahQLRunTimeError = function(message) { this.name = "SpahQLRunTimeError"; this.message = (message || ""); };
 SpahQL.Errors.SpahQLRunTimeError.prototype = SpahQL.Errors.SpahQLError.prototype;
 
-/**
+
+/**
  * class SpahQL.Query
  *
  * A <code>Query</code> instance is the result of running a string state query such as "/foo/bar/baz == 1" through the <code>SpahQL.QueryParser</code>. 
@@ -1192,7 +1195,8 @@ SpahQL_classCreate("SpahQL.Query", {
    
  });
 
-/**
+
+/**
  * class SpahQL.QueryParser
  *
  * Parses string queries from data-\*-if attributes and client-side responders and produces parsed <code>SpahQL.Query</code> instances.
@@ -1329,7 +1333,8 @@ SpahQL_classCreate("SpahQL.QueryParser", {
 
  });
 
-/**
+
+/**
  * class SpahQL.QueryRunner
  *
  * Class responsible for executing parsed <code>SpahQL.Query</code> queries and returning sets
@@ -1450,7 +1455,8 @@ SpahQL_classCreate("SpahQL.QueryRunner", {
   
 });
 
-/**
+
+/**
  * class SpahQL.DataHelper
  *
  * This is a singleton helper dedicated to deep-merging complex JSON structures and returning both
@@ -1979,7 +1985,8 @@ SpahQL_classCreate("SpahQL.DataHelper", {
   
 });
 
-/**
+
+/**
  * class SpahQL.Strategiser
  *
  * A generic handler class for managing SpahQL Strategies and applying them to SpahQL objects.
@@ -2191,7 +2198,8 @@ SpahQL_classCreate("SpahQL.DataHelper", {
 
  });
 
-/**
+
+/**
  * class SpahQL.Token
  *
  * A containing module for all token types - queries, filters, comparison operators, sets, literals etc.
@@ -2227,7 +2235,8 @@ SpahQL_classCreate("SpahQL.Token", {
   
 });
 
-/**
+
+/**
  * class SpahQL.Token.Base
  *
  * A simple superclass for all tokens - queries, filters, comparison operators, sets, literals etc.
@@ -2262,7 +2271,8 @@ SpahQL_classCreate("SpahQL.Token.Base", {
   
 });
 
-/**
+
+/**
  * class SpahQL.Token.Simple < SpahQL.Token.Base
  *
  * A simple superclass for all simple tokens that carry a single value or subtoken.
@@ -2310,7 +2320,8 @@ SpahQL_classExtend("SpahQL.Token.Simple", SpahQL.Token.Base, {
   
 });
 
-/**
+
+/**
  * class SpahQL.Token.String < SpahQL.Token.Simple
  *
  * A simple token wrapping a string literal value.
@@ -2370,7 +2381,8 @@ SpahQL_classExtend("SpahQL.Token.String", SpahQL.Token.Simple, {
 })
 
 
-/**
+
+/**
  * class SpahQL.Token.Numeric < SpahQL.Token.Simple
  *
  * A simple token wrapping an integer or floating-point numeric literal value.
@@ -2431,7 +2443,8 @@ SpahQL_classExtend("SpahQL.Token.Numeric", SpahQL.Token.Simple, {
     
 });
 
-/**
+
+/**
  * class SpahQL.Token.Boolean < SpahQL.Token.Simple
  *
  * A simple token wrapping a boolean true or false.
@@ -2458,7 +2471,8 @@ SpahQL_classExtend("SpahQL.Token.Boolean", SpahQL.Token.Simple, {
 })
 
 
-/**
+
+/**
  * class SpahQL.Token.Set < SpahQL.Token.Base
  *
  * A wrappping class for any set literal, containing one or more values.
@@ -2772,7 +2786,8 @@ SpahQL_classExtend("SpahQL.Token.Set", SpahQL.Token.Base, {
   
 });
 
-/**
+
+/**
  * class SpahQL.Token.ComparisonOperator < SpahQL.Token.Simple
  *
  * A simple token wrapping a string literal value.
@@ -2807,7 +2822,8 @@ SpahQL_classExtend("SpahQL.Token.ComparisonOperator", SpahQL.Token.Simple, {
     
 });
 
-/**
+
+/**
  * class SpahQL.Token.FilterQuery < SpahQL.Token.Simple
  *
  * A token describing any path component within a selection query, comprised of one or two path delimiters
@@ -2880,7 +2896,8 @@ SpahQL_classExtend("SpahQL.Token.FilterQuery", SpahQL.Token.Simple, {
     
 });
 
-/**
+
+/**
  * class SpahQL.Token.PathComponent < SpahQL.Token.Base
  *
  * A token describing any path component within a selection query, comprised of one or two path delimiters
@@ -3152,7 +3169,8 @@ SpahQL_classExtend("SpahQL.Token.PathComponent", SpahQL.Token.Base, {
     
 });
 
-/**
+
+/**
  * class SpahQL.Token.SelectionQuery < SpahQL.Token.Base
  *
  * A token describing any selection query, comprised of an optional root flag followed by one or more
@@ -3269,7 +3287,8 @@ SpahQL_classExtend("SpahQL.Token.SelectionQuery", SpahQL.Token.Base, {
     
 });
 
-/**
+
+/**
  * class SpahQL.Token.KeyName < SpahQL.Token.Simple
  *
  * A simple token wrapping a valid variable or identifier value.
